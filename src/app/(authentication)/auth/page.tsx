@@ -1,10 +1,13 @@
 'use client';
 
+import { registerWithEmail } from "@/actions/register-with-email";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import Typography from "@/components/ui/typography";
+import { supabaseBrowserClient } from "@/supabase/supabaseClient";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Provider } from "@supabase/supabase-js";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsSlack } from "react-icons/bs";
@@ -28,7 +31,25 @@ const AuthPage = () => {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>){
-    console.log(values)
+    setIsAuthenticating(true);
+    const response = await registerWithEmail(values);
+    const { data, error } = JSON.parse(response);
+    setIsAuthenticating(false);
+    if (error) {
+      console.warn('Sign in error', error);
+      return;
+    }
+  }
+
+  async function socialAuth(provider: Provider){
+    setIsAuthenticating(true);
+    await supabaseBrowserClient.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${location.origin}/auth/callback`
+      },
+    });
+    setIsAuthenticating(false);
   }
 
   return (
@@ -52,8 +73,8 @@ const AuthPage = () => {
           <Button
             disabled={isAuthenticating}
             variant='outline'
-          // className='py-6 border-2 flex space-x-3'
-          // onClick={() => socialAuth('google')}
+            className='py-6 border-2 flex space-x-3'
+            onClick={() => socialAuth('google')}
           >
             <FcGoogle size={30} />
             <Typography
@@ -65,8 +86,8 @@ const AuthPage = () => {
           <Button
             disabled={isAuthenticating}
             variant='outline'
-          // className='py-6 border-2 flex space-x-3'
-          // onClick={() => socialAuth('github')}
+            className='py-6 border-2 flex space-x-3'
+            onClick={() => socialAuth('github')}
           >
             <RxGithubLogo size={30} />
             <Typography
