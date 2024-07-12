@@ -13,3 +13,6 @@ https://docs.uploadthing.com/
 
 NEXTJS-IMAGE_CONFIG
 https://nextjs.org/docs/messages/next-image-unconfigured-host
+
+shad/ui
+https://ui.shadcn.com/
