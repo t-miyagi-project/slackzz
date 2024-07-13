@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 
 export default async function Home() {
   const userData = await getUserData();
-
+  
   if (!userData) return redirect('/auth');
 
   const userWorkspaceId = userData.workspaces?.[0];

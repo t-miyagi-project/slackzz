@@ -11,6 +11,7 @@ import Typography from "@/components/ui/typography";
 import { useCreateWorkspaceValues } from "@/hooks/create-workspace-values";
 import { useRouter } from "next/navigation";
 import { createWorkspace } from "@/actions/create-workspace";
+import { toast } from "sonner";
 
 const CreateWorkspace = () => {
   const { currStep } = useCreateWorkspaceValues();
@@ -95,12 +96,12 @@ const Step2 = () => {
     const invite_code = uuid();
     const error = await createWorkspace({ imageUrl, name, slug, invite_code });
     setIsSubmitting(false);
-    // if (error?.error) {
-    //   console.log(error);
-    //   return toast.error("Couldn't create workspace. Please try again.");
-    // }
-    // toast.success('Workspace created successfully');
-    // router.push('/');
+    if (error?.error) {
+      console.log(error);
+      return toast.error("Couldn't create workspace. Please try again.");
+    }
+    toast.success('Workspace created successfully');
+    router.push('/');
   };
 
   return (
