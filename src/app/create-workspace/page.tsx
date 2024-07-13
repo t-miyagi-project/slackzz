@@ -1,5 +1,6 @@
 'use client';
 
+import ImageUpload from "@/components/image-upload";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Typography from "@/components/ui/typography";
@@ -85,6 +86,7 @@ const Step2 = () => {
   const router = useRouter();
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
   };
 
   return (
@@ -109,7 +111,8 @@ const Step2 = () => {
           disabled={isSubmitting}
           className='mt-6 flex flex-col items-center space-y-9'
         >
-          {/* イメージアップロード */}
+          <ImageUpload/>
+
           <div className='space-x-5'>
             <Button
               onClick={() => {
