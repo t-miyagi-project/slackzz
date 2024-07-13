@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: "Slackzz app",
 };
 
+export const revalidate = 0;
+
 export default function RootLayout({
   children,
 }: Readonly<{
