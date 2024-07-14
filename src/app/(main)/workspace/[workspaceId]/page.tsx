@@ -1,5 +1,9 @@
 import { getUserData } from "@/actions/get-user-data";
+import { getCurrentWorksaceData, getUserWorkspaceData } from "@/actions/workspaces";
+import Sidebar from "@/components/sidebar";
 import { redirect } from "next/navigation";
+import { Workspace as UserWorkspace } from '@/types/app';
+import InfoSection from "@/components/info-section";
 
 const Workspace = async ({
   params: { workspaceId },
@@ -10,9 +14,9 @@ const Workspace = async ({
 
   if (!userData) return redirect('/auth');
 
-  // const [userWorkspaceData] = await getUserWorkspaceData(userData.workspaces!);
+  const [userWorkspaceData] = await getUserWorkspaceData(userData.workspaces!);
 
-  // const [currentWorkspaceData] = await getCurrentWorksaceData(workspaceId);
+  const [currentWorkspaceData] = await getCurrentWorksaceData(workspaceId);
 
   // const userWorkspaceChannels = await getUserWorkspaceChannels(
   //   currentWorkspaceData.id,
@@ -21,25 +25,25 @@ const Workspace = async ({
 
   return (
     <>
-      {/* <div className='hidden md:block'>
+      <div className='hidden md:block'>
         <Sidebar
           currentWorkspaceData={currentWorkspaceData}
           userData={userData}
           userWorksapcesData={userWorkspaceData as UserWorkspace[]}
         />
         <InfoSection
-          currentWorkspaceData={currentWorkspaceData}
-          userData={userData}
-          userWorkspaceChannels={userWorkspaceChannels}
-          currentChannelId=''
+          // currentWorkspaceData={currentWorkspaceData}
+          // userData={userData}
+          // userWorkspaceChannels={userWorkspaceChannels}
+          // currentChannelId=''
         />
 
-        <NoDataScreen
+        {/* <NoDataScreen
           userId={userData.id}
           workspaceId={currentWorkspaceData.id}
           workspaceName={currentWorkspaceData.name}
-        />
-      </div> */}
+        /> */}
+      </div>
       <div className='md:hidden block min-h-screen'>Mobile</div>
     </>
   );

@@ -7,7 +7,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'utfs.io',
       },
-      
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
     ],
   },
 };
