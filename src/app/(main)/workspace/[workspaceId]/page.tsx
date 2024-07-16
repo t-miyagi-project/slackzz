@@ -1,9 +1,15 @@
-import { getUserData } from "@/actions/get-user-data";
-import { getCurrentWorksaceData, getUserWorkspaceData } from "@/actions/workspaces";
-import Sidebar from "@/components/sidebar";
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
+
+import { getUserData } from '@/actions/get-user-data';
+import {
+  getCurrentWorksaceData,
+  getUserWorkspaceData,
+} from '@/actions/workspaces';
+import Sidebar from '@/components/sidebar';
 import { Workspace as UserWorkspace } from '@/types/app';
-import InfoSection from "@/components/info-section";
+import InfoSection from '@/components/info-section';
+import { getUserWorkspaceChannels } from '@/actions/get-user-workspace-channels';
+import NoDataScreen from '@/components/no-data-component';
 
 const Workspace = async ({
   params: { workspaceId },
@@ -18,10 +24,16 @@ const Workspace = async ({
 
   const [currentWorkspaceData] = await getCurrentWorksaceData(workspaceId);
 
-  // const userWorkspaceChannels = await getUserWorkspaceChannels(
-  //   currentWorkspaceData.id,
-  //   userData.id
-  // );
+  const userWorkspaceChannels = await getUserWorkspaceChannels(
+    currentWorkspaceData.id,
+    userData.id
+  );
+
+  // if (userWorkspaceChannels.length) {
+  //   redirect(
+  //     `/workspace/${workspaceId}/channels/${userWorkspaceChannels[0].id}`
+  //   );
+  // }
 
   return (
     <>
@@ -32,17 +44,17 @@ const Workspace = async ({
           userWorksapcesData={userWorkspaceData as UserWorkspace[]}
         />
         <InfoSection
-          // currentWorkspaceData={currentWorkspaceData}
-          // userData={userData}
-          // userWorkspaceChannels={userWorkspaceChannels}
-          // currentChannelId=''
+          currentWorkspaceData={currentWorkspaceData}
+          userData={userData}
+          userWorkspaceChannels={userWorkspaceChannels}
+          currentChannelId=''
         />
 
-        {/* <NoDataScreen
+        <NoDataScreen
           userId={userData.id}
           workspaceId={currentWorkspaceData.id}
           workspaceName={currentWorkspaceData.name}
-        /> */}
+        />
       </div>
       <div className='md:hidden block min-h-screen'>Mobile</div>
     </>

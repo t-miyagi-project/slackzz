@@ -12,12 +12,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
+import CreateWorkspace from '@/components/create-workspace';
 import { useRouter } from 'next/navigation';
+import ProgressBar from './progress-bar';
 import { cn } from '@/lib/utils';
 import { useColorPrefrences } from '@/providers/color-prefrences';
 import { Copy } from 'lucide-react';
 import { toast } from 'sonner';
-import CreateWorkspace from '@/components/create-workspace';
 
 type SidebarNavProps = {
   userWorkspacesData: Workspace[];
@@ -81,7 +82,7 @@ const SidebarNav: FC<SidebarNavProps> = ({
                   <CardContent className='flex p-0 flex-col'>
                     {switchingWorkspace ? (
                       <div className='m-2'>
-                        {/* <ProgressBar /> */}
+                        <ProgressBar />
                       </div>
                     ) : (
                       userWorkspacesData.map(workspace => {

@@ -9,6 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      channels: {
+        Row: {
+          id: string
+          members: string[] | null
+          name: string
+          regulators: string[] | null
+          user_id: string
+          workspace_id: string
+        }
+        Insert: {
+          id?: string
+          members?: string[] | null
+          name: string
+          regulators?: string[] | null
+          user_id: string
+          workspace_id: string
+        }
+        Update: {
+          id?: string
+          members?: string[] | null
+          name?: string
+          regulators?: string[] | null
+          user_id?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "channels_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "channels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       users: {
         Row: {
           avatar_url: string
@@ -108,6 +150,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      add_channel_to_workspace: {
+        Args: {
+          channel_id: string
+          workspace_id: string
+        }
+        Returns: undefined
+      }
       add_member_to_workspace: {
         Args: {
           user_id: string
@@ -119,6 +168,20 @@ export type Database = {
         Args: {
           user_id: string
           new_workspace: string
+        }
+        Returns: undefined
+      }
+      update_channel_members: {
+        Args: {
+          new_member: string
+          channel_id: string
+        }
+        Returns: undefined
+      }
+      update_user_channels: {
+        Args: {
+          user_id: string
+          channel_id: string
         }
         Returns: undefined
       }
